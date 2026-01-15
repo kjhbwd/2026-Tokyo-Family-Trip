@@ -2,131 +2,45 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>가족 도쿄 여행 가이드</title>
-    <style>
-        :root { --main-bg: #f4f7f6; --accent: #ff4757; --card-bg: #ffffff; }
-        body { font-family: 'Pretendard', sans-serif; background: var(--main-bg); margin: 0; padding: 20px; }
-        .container { max-width: 600px; margin: 0 auto; }
-        header { text-align: center; padding: 20px 0; background: var(--accent); color: white; border-radius: 15px; margin-bottom: 20px; }
-        .day-card { background: var(--card-bg); border-radius: 15px; padding: 15px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h2 { border-bottom: 2px solid var(--accent); padding-bottom: 5px; color: #333; }
-        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dotted #ccc; font-size: 0.9em; }
-        .map-link { color: #1e90ff; text-decoration: none; font-weight: bold; }
-        .memo-area { margin-top: 15px; background: #fff9c4; padding: 10px; border-radius: 10px; }
-        textarea { width: 100%; border: none; background: transparent; resize: none; font-family: inherit; }
-        .photo-upload { margin-top: 10px; border: 2px dashed #bbb; text-align: center; padding: 10px; border-radius: 10px; cursor: pointer; }
-        img { max-width: 100%; border-radius: 10px; margin-top: 10px; display: none; }
-        .warning { color: red; font-weight: bold; font-size: 0.8em; }
-    </style>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>도쿄 가족여행 2026</title>
+    <script type="module">
+        // Firebase 모듈 임포트
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-storage.js";
 
-<div class="container">
-    <header>
-        <h1>🇯🇵 도쿄 가족 여행</h1>
-        <p>1월 16일 ~ 1월 20일</p>
-    </header>
+        // 🔥 [필수] 여기에 본인의 Firebase 설정값을 복사해서 붙여넣으세요! 🔥
+        const firebaseConfig = {
+            apiKey: "본인의_API_KEY_입력",
+            authDomain: "프로젝트ID.firebaseapp.com",
+            projectId: "프로젝트ID_입력",
+            storageBucket: "프로젝트ID.appspot.com",
+            messagingSenderId: "발신자ID_입력",
+            appId: "앱ID_입력"
+        };
 
-    <div class="day-card">
-        <h2>DAY 1: 도쿄 입성</h2>
-        <div class="info-row">
-            <span>나리타(T2) 도착 (15:00)</span>
-            <a href="https://goo.gl/maps/xyz1" class="map-link">지도 보기</a>
-        </div>
-        <div class="info-row">
-            <span>스이카 발급 (보증금 500+1500충전)</span>
-        </div>
-        <div class="info-row">
-            <span>아사쿠사 이동 (A4 출구)</span>
-            <a href="https://goo.gl/maps/xyz2" class="map-link">역 지도</a>
-        </div>
-        <div class="info-row">
-            <span>도쿄타워 야경 (다이몬역 A6 출구)</span>
-            <a href="https://goo.gl/maps/xyz3" class="map-link">타워 지도</a>
-        </div>
-        <div class="memo-area">
-            <strong>📝 가족 메모</strong>
-            <textarea placeholder="메모를 입력하세요..." oninput="saveMemo('day1', this.value)" id="memo-day1"></textarea>
-        </div>
-    </div>
-
-    <div class="day-card">
-        <h2>DAY 2: 아카사카 & 시부야</h2>
-        <div class="info-row">
-            <span>히에신사 (아카사카미츠케 11번 출구)</span>
-            <a href="#" class="map-link">지도</a>
-        </div>
-        <div class="info-row">
-            <span>시부야 스카이 (17:00 예약)</span>
-            <a href="#" class="map-link">지도</a>
-        </div>
-        <div class="memo-area">
-            <strong>📝 가족 메모</strong>
-            <textarea placeholder="메모를 입력하세요..." oninput="saveMemo('day2', this.value)" id="memo-day2"></textarea>
-        </div>
-    </div>
-
-    <div class="day-card">
-        <h2>DAY 3: 해리포터 & 스카이트리</h2>
-        <div class="info-row">
-            <span>해리포터 스튜디오 (도시마엔역)</span>
-            <a href="#" class="map-link">지도</a>
-        </div>
-        <div class="info-row">
-            <span>스카이트리 (오시아게역 5-7번 출구)</span>
-            <a href="#" class="map-link">지도</a>
-        </div>
-        <div class="memo-area">
-            <strong>📝 가족 메모</strong>
-            <textarea placeholder="메모를 입력하세요..." oninput="saveMemo('day3', this.value)" id="memo-day3"></textarea>
-        </div>
-    </div>
-
-    <div class="day-card">
-        <h2>DAY 4: 디즈니씨 올데이</h2>
-        <div class="info-row">
-            <span>마이하마역 이동 후 버스(260엔)</span>
-            <a href="#" class="map-link">지도</a>
-        </div>
-        <div class="info-row">
-            <span>추천: 타워오브테러, 하버쇼</span>
-        </div>
-        <div class="memo-area">
-            <strong>📝 가족 메모</strong>
-            <textarea placeholder="메모를 입력하세요..." oninput="saveMemo('day4', this.value)" id="memo-day4"></textarea>
-        </div>
-    </div>
-
-    <div class="day-card">
-        <h2>DAY 5: 귀국</h2>
-        <div class="info-row">
-            <span>나리타 공항행 액세스 특급 (2번 플랫폼)</span>
-        </div>
-        <div class="info-row">
-            <span class="warning">주의: 인바니혼이대행 탑승 금지!</span>
-        </div>
-        <div class="memo-area">
-            <strong>📝 가족 메모</strong>
-            <textarea placeholder="메모를 입력하세요..." oninput="saveMemo('day5', this.value)" id="memo-day5"></textarea>
-        </div>
-    </div>
-</div>
-
-<script>
-    // 로컬 스토리지 저장 (기본 영구 저장 방식)
-    function saveMemo(day, val) {
-        localStorage.setItem(day, val);
-    }
-
-    // 페이지 로드 시 저장된 메모 불러오기
-    window.onload = function() {
-        for(let i=1; i<=5; i++) {
-            const saved = localStorage.getItem('day' + i);
-            if(saved) document.getElementById('memo-day' + i).value = saved;
+        // Firebase 앱 초기화
+        let app, db, storage;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            storage = getStorage(app);
+        } catch (e) {
+            console.error("Firebase 초기화 실패. 설정값을 확인하세요.", e);
+            alert("⚠️ 중요: index.html 파일을 열어 Firebase 설정값(firebaseConfig)을 입력해야 앱이 정상 작동합니다!");
         }
-    }
-</script>
 
-</body>
-</html>
+        // 실시간 메모 저장
+        window.saveMemo = async (day) => {
+            if (!db) return;
+            const text = document.getElementById(`memo-${day}`).value;
+            await setDoc(doc(db, "travel", day), { memo: text }, { merge: true });
+        };
+
+        // 사진 업로드 기능
+        window.uploadPhoto = async (day, file) => {
+            if (!file || !storage) return;
+            const storageRef = ref(storage, `photos/${day}_${Date.now()}`);
+            try {
+                await uploadBytes(storageRef, file);

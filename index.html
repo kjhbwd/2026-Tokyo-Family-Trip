@@ -40,4 +40,142 @@
     <div id="day1" class="card active">
         <h2>DAY 1: 공항 & 아사쿠사 (1/16)</h2>
         <div class="info-item">✈️ 15:00 나리타 공항 도착</div>
-        <div class="info-item">🚆 스카이라이너 이동 (우에노행
+        <div class="info-item">🚆 스카이라이너 타고 우에노 이동</div>
+        <div class="info-item">🏨 아사쿠사 뷰 호텔 체크인</div>
+        <div class="info-item">🏮 센소지 & 나카미세 거리 산책</div>
+        <div class="info-item">🍴 저녁: 현지 맛집 탐방</div>
+        <div id="photos-day1" style="margin-top:20px;"></div>
+        <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day1', this)"></label>
+        <textarea id="memo-day1" onblur="saveMemo('day1')" placeholder="메모를 남기세요!"></textarea>
+    </div>
+
+    <div id="day2" class="card">
+        <h2>DAY 2: 디즈니씨 (1/17)</h2>
+        <div class="info-item">🎢 08:30 디즈니씨 입장</div>
+        <div class="info-item">🍿 인기 어트랙션 즐기기</div>
+        <div class="info-item">🌋 저녁: 화산쇼 & 빌리브 관람</div>
+        <div id="photos-day2" style="margin-top:20px;"></div>
+        <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day2', this)"></label>
+        <textarea id="memo-day2" onblur="saveMemo('day2')"></textarea>
+    </div>
+
+    <div id="day3" class="card">
+        <h2>DAY 3: 시부야 & 신주쿠 (1/18)</h2>
+        <div class="info-item">🏙️ 시부야 스카이 전망대 (야경)</div>
+        <div class="info-item">🐶 하치코 동상 & 스크램블 교차로</div>
+        <div class="info-item">🛍️ 신주쿠 백화점 쇼핑</div>
+        <div id="photos-day3" style="margin-top:20px;"></div>
+        <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day3', this)"></label>
+        <textarea id="memo-day3" onblur="saveMemo('day3')"></textarea>
+    </div>
+
+    <div id="day4" class="card">
+        <h2>DAY 4: 하라주쿠 & 오모테산도 (1/19)</h2>
+        <div class="info-item">🌳 메이지 신궁 산책</div>
+        <div class="info-item">🥞 하라주쿠 카페 거리 탐방</div>
+        <div class="info-item">🗼 도쿄타워 야경 감상</div>
+        <div id="photos-day4" style="margin-top:20px;"></div>
+        <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day4', this)"></label>
+        <textarea id="memo-day4" onblur="saveMemo('day4')"></textarea>
+    </div>
+
+    <div id="day5" class="card">
+        <h2>DAY 5: 마지막 시장 & 귀국 (1/20)</h2>
+        <div class="info-item">🍣 츠키지 시장 구경</div>
+        <div class="info-item">🚆 16:00 나리타 공항 이동</div>
+        <div class="info-item">✈️ 저녁 비행기 이륙</div>
+        <div id="photos-day5" style="margin-top:20px;"></div>
+        <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day5', this)"></label>
+        <textarea id="memo-day5" onblur="saveMemo('day5')"></textarea>
+    </div>
+
+    <div class="nav">
+        <div class="nav-item active" onclick="go(1)">16(목)<br>1일차</div>
+        <div class="nav-item" onclick="go(2)">17(금)<br>2일차</div>
+        <div class="nav-item" onclick="go(3)">18(토)<br>3일차</div>
+        <div class="nav-item" onclick="go(4)">19(일)<br>4일차</div>
+        <div class="nav-item" onclick="go(5)">20(월)<br>5일차</div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getFirestore, doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-storage.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBweeHd4dCsd82Q2pDxPnP9IU6vjdi-S5M",
+        authDomain: "tokyo-trip-2026-family.firebaseapp.com",
+        projectId: "tokyo-trip-2026-family",
+        storageBucket: "tokyo-trip-2026-family.firebasestorage.app",
+        messagingSenderId: "669648921196",
+        appId: "1:669648921196:web:79df32780bea9a4e6dee49"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    window.checkPassword = () => {
+        const input = document.getElementById('pw-input').value.trim();
+        if (input === "1214") {
+            document.getElementById('lock-screen').style.display = 'none';
+            document.getElementById('app-content').style.display = 'block';
+        } else {
+            alert("비밀번호가 틀렸습니다!");
+        }
+    };
+
+    window.uploadPhoto = async (day, input) => {
+        if (!input.files[0]) return;
+        const file = input.files[0];
+        const fileName = Date.now() + "_" + file.name;
+        const storageRef = ref(storage, "photos/" + day + "/" + fileName);
+        try {
+            const snap = await uploadBytes(storageRef, file);
+            const url = await getDownloadURL(snap.ref);
+            await setDoc(doc(db, "travel", day), { photos: arrayUnion({ url, name: fileName }) }, { merge: true });
+        } catch (e) { alert("저장 실패!"); }
+    };
+
+    window.deletePhoto = async (day, photoData) => {
+        if (!confirm("삭제하시겠습니까?")) return;
+        try {
+            await deleteObject(ref(storage, "photos/" + day + "/" + photoData.name));
+            await updateDoc(doc(db, "travel", day), { photos: arrayRemove(photoData) });
+        } catch (e) { alert("삭제 실패!"); }
+    };
+
+    window.saveMemo = async (day) => {
+        const val = document.getElementById("memo-" + day).value;
+        await setDoc(doc(db, "travel", day), { memo: val }, { merge: true });
+    };
+
+    window.go = (n) => {
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.getElementById('day' + n).classList.add('active');
+        document.querySelectorAll('.nav-item')[n-1].classList.add('active');
+        window.scrollTo(0,0);
+    };
+
+    ['day1','day2','day3','day4','day5'].forEach(day => {
+        onSnapshot(doc(db, "travel", day), (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                if (document.getElementById("memo-" + day)) document.getElementById("memo-" + day).value = data.memo || "";
+                const photoDiv = document.getElementById("photos-" + day);
+                if (photoDiv) {
+                    photoDiv.innerHTML = (data.photos || []).map(p => `
+                        <div class="photo-container">
+                            <img src="${p.url}" class="photo-item">
+                            <button class="del-btn" onclick="deletePhoto('${day}', ${JSON.stringify(p).replace(/"/g, '&quot;')})">✕</button>
+                        </div>
+                    `).join('');
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

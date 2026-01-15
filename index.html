@@ -14,7 +14,6 @@
         h3 { font-size: 1.05rem; margin: 15px 0 5px; color: #444; }
         .info-item { font-size: 0.9rem; margin-bottom: 8px; padding-left: 12px; border-left: 3px solid #ddd; }
         .highlight { color: #e74c3c; font-weight: bold; }
-        .btn-map { background: #1e90ff; color: white; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; display: inline-block; margin-top: 5px; }
         textarea { width: 100%; height: 80px; border: 1px solid #eee; border-radius: 10px; padding: 12px; margin-top: 20px; box-sizing: border-box; font-family: inherit; background: #fffdf0; }
         .btn-up { background: #2ed573; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; margin-top: 10px; cursor: pointer; font-size: 1rem; }
         img { width: 100%; border-radius: 10px; margin-top: 15px; display: none; border: 1px solid #eee; }
@@ -32,13 +31,13 @@
     <p>📅 1월 16일 (목)</p>
     <h3>✈️ 나리타 도착 (15:00)</h3>
     <div class="info-item">• <b>스이카 발급:</b> B1F JR EAST 센터/자판기 (2000엔: 보증금 500+충전 1500)</div>
-    <div class="info-item">• <b>아사쿠사 이동:</b> 액세스 특급(Access Express) 1·2번 플랫폼 (1370엔, 60분)</div>
+    <div class="info-item">• <b>아사쿠사 이동:</b> 액세스 특급 플랫폼 1·2번 (1370엔, 60분)</div>
     <h3>🏨 숙소: 아사쿠사 뷰 호텔</h3>
     <div class="info-item">• 아사쿠사역 A4 출구 → 도보 7~8분</div>
     <h3>🗼 도쿄타워 & 저녁</h3>
-    <div class="info-item">• <b>이동:</b> 아사쿠사선(빨강) 1번 플랫폼 → 다이몬역(27분) A6 출구</div>
-    <div class="info-item">• <b>식당:</b> ① 라멘 카나다야(도보 5분), ② 난스케 바이스(햄버그), ③ 토리키조쿠</div>
-    <textarea id="memo-day1" onblur="saveMemo('day1')" placeholder="메모를 남기세요..."></textarea>
+    <div class="info-item">• <b>라멘 카나다야:</b> 다이몬역 A6 → 30m 직진 → T자 교차로 좌회전</div>
+    <div class="info-item">• <b>난스케 바이스(햄버그):</b> 타워 왼쪽 길 → 400m 직진 → 패밀리마트 옆</div>
+    <textarea id="memo-day1" onblur="saveMemo('day1')" placeholder="📝 1일차 메모를 남겨보세요!"></textarea>
     <img id="img-day1"><input type="file" id="f-day1" hidden onchange="uploadPhoto('day1', this.files[0])">
     <button class="btn-up" onclick="document.getElementById('f-day1').click()">📷 사진 올리기</button>
 </div>
@@ -47,14 +46,13 @@
     <h2>DAY 2: 아카사카 & 시부야</h2>
     <p>📅 1월 17일 (금)</p>
     <h3>⛩️ 히에신사 (10:00)</h3>
-    <div class="info-item">• <b>이동:</b> 아사쿠사역(빨강) → 신바시 환승(노랑) → 아카사카미츠케역 11번 출구</div>
-    <div class="info-item">• 붉은 토리이 포토존, 체류 30~45분</div>
+    <div class="info-item">• 아카사카미츠케역 11번 출구 → 도보 7분</div>
     <h3>🎭 아카사카 ACT 씨어터</h3>
     <div class="info-item">• 11:45 입장 / 12:15 공연 시작 (3시간 30분 공연)</div>
     <h3>🏙️ 시부야 (17:00~)</h3>
-    <div class="info-item">• <b>시부야 스카이:</b> 예약 시간(17:00) 준수! 전망대 관람 1시간</div>
-    <div class="info-item">• <b>쇼핑:</b> 스크램블 교차로, 돈키호테, 시부야109</div>
-    <textarea id="memo-day2" onblur="saveMemo('day2')"></textarea>
+    <div class="info-item">• <b>시부야 스카이:</b> 예약 시간(17:00) 준수 필수!</div>
+    <div class="info-item">• <b>귀가:</b> 시부야역 → 긴자선(노랑) 직행 (약 35분)</div>
+    <textarea id="memo-day2" onblur="saveMemo('day2')" placeholder="📝 2일차 메모..."></textarea>
     <img id="img-day2"><input type="file" id="f-day2" hidden onchange="uploadPhoto('day2', this.files[0])">
     <button class="btn-up" onclick="document.getElementById('f-day2').click()">📷 사진 올리기</button>
 </div>
@@ -63,10 +61,9 @@
     <h2>DAY 3: 해리포터 & 스카이트리</h2>
     <p>📅 1월 18일 (토)</p>
     <h3>🥣 아침: 요시노야 (08:00)</h3>
-    <div class="info-item">• 호텔 도보 4분 (규동/계란 아침세트 500~650엔)</div>
+    <div class="info-item">• 호텔 도보 4분 (규동/아침세트 500~650엔)</div>
     <h3>⚡ 해리포터 스튜디오 (10:30)</h3>
-    <div class="info-item">• <b>이동:</b> 아사쿠사 → 오시아게 → 시부야 → 이케부쿠로 → 도시마엔</div>
-    <div class="info-item">• 최소 3시간 소요, 사진 포인트 많음</div>
+    <div class="info-item">• 이동: 아사쿠사 → 오시아게 → 시부야 → 이케부쿠로 → 도시마엔</div>
     <h3>🗼 스카이트리 (15:00~)</h3>
     <div class="info-item">• 전망대 & 소라마치 쇼핑몰 (식당가 이용 편리)</div>
     <textarea id="memo-day3" onblur="saveMemo('day3')"></textarea>
@@ -78,12 +75,11 @@
     <h2>DAY 4: 도쿄 디즈니씨</h2>
     <p>📅 1월 19일 (일)</p>
     <h3>🚍 가는 법</h3>
-    <div class="info-item">1. 아사쿠사역(분홍색) → 신바시역 (15분)</div>
-    <div class="info-item">2. 신바시 → JR 게이요선 환승 → 마이하마역 (20분)</div>
-    <div class="info-item">3. 역 앞 버스터미널 '디즈니씨행' (260엔, 7분)</div>
-    <h3>🎢 추천</h3>
-    <div class="info-item">• <b>식당:</b> 세일링데이 뷔페, 카스피안 스낵, 리스토란테 디 카나렛토</div>
-    <div class="info-item">• <b>라이드:</b> 저니 투 더 센터, 타워 오브 테러, 인디아나 존스</div>
+    <div class="info-item">1. 아사쿠사역(분홍색) → 신바시역 환승</div>
+    <div class="info-item">2. 신바시 → JR 게이요선 → 마이하마역</div>
+    <div class="info-item">3. 역 앞 버스터미널 '디즈니씨행' (260엔)</div>
+    <h3>🎢 놀이기구 추천</h3>
+    <div class="info-item">• 저니 투 더 센터, 타워 오브 테러, 인디아나 존스</div>
     <textarea id="memo-day4" onblur="saveMemo('day4')"></textarea>
     <img id="img-day4"><input type="file" id="f-day4" hidden onchange="uploadPhoto('day4', this.files[0])">
     <button class="btn-up" onclick="document.getElementById('f-day4').click()">📷 사진 올리기</button>
@@ -92,10 +88,10 @@
 <div id="day5" class="card">
     <h2>DAY 5: 귀국 (나리타 공항)</h2>
     <p>📅 1월 20일 (월)</p>
-    <h3>🚆 열차 탑승 주의</h3>
+    <h3>🚆 열차 주의사항</h3>
     <div class="info-item">• 아사쿠사역 <b>2번 플랫폼</b> (나리타 방향)</div>
-    <div class="info-item">• <span class="highlight">⚠️ 절대주의:</span> "印旛日本医大"행은 반대 방향임!</div>
-    <div class="info-item">• <b>요금:</b> 1320엔 (스이카 결제), 약 60분 소요</div>
+    <div class="info-item">• <span class="highlight">⚠️ 주의:</span> "印旛日本医大"행 절대 탑승 금지!</div>
+    <div class="info-item">• 요금: 1320엔, 약 60분 소요</div>
     <textarea id="memo-day5" onblur="saveMemo('day5')"></textarea>
     <img id="img-day5"><input type="file" id="f-day5" hidden onchange="uploadPhoto('day5', this.files[0])">
     <button class="btn-up" onclick="document.getElementById('f-day5').click()">📷 사진 올리기</button>
@@ -114,48 +110,48 @@
     import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-storage.js";
 
+    // ✅ 사용자님의 실제 Firebase 키값 적용 완료!
     const firebaseConfig = {
-        apiKey: "YOUR_API_KEY", authDomain: "YOUR_ID.firebaseapp.com",
-        projectId: "YOUR_ID", storageBucket: "YOUR_ID.appspot.com", appId: "YOUR_APP_ID"
+        apiKey: "AIzaSyBweeHd4dCsd82Q2pDxPnP9IU6vjdi-S5M",
+        authDomain: "tokyo-trip-2026-family.firebaseapp.com",
+        projectId: "tokyo-trip-2026-family",
+        storageBucket: "tokyo-trip-2026-family.firebasestorage.app",
+        messagingSenderId: "669648921196",
+        appId: "1:669648921196:web:79df32780bea9a4e6dee49"
     };
 
-    let db, storage;
-    try {
-        const app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-        storage = getStorage(app);
-    } catch (e) { console.warn("Firebase 키 미입력 - 로컬 모드로 작동 중"); }
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
 
     window.saveMemo = async (day) => {
         const val = document.getElementById(`memo-${day}`).value;
         localStorage.setItem(day, val);
-        if(db) await setDoc(doc(db, "travel", day), { memo: val }, { merge: true });
+        await setDoc(doc(db, "travel", day), { memo: val }, { merge: true });
     };
 
     window.uploadPhoto = async (day, file) => {
-        if (!file || !storage) return;
+        if (!file) return;
         const sRef = ref(storage, `photos/${day}_${Date.now()}`);
         await uploadBytes(sRef, file);
         const url = await getDownloadURL(sRef);
-        if(db) await setDoc(doc(db, "travel", day), { imageUrl: url }, { merge: true });
+        await setDoc(doc(db, "travel", day), { imageUrl: url }, { merge: true });
     };
 
     const days = ['day1', 'day2', 'day3', 'day4', 'day5'];
     days.forEach(day => {
         const local = localStorage.getItem(day);
         if(local) document.getElementById(`memo-${day}`).value = local;
-        if(db) {
-            onSnapshot(doc(db, "travel", day), (doc) => {
-                if (doc.exists()) {
-                    const data = doc.data();
-                    document.getElementById(`memo-${day}`).value = data.memo || "";
-                    if (data.imageUrl) {
-                        const img = document.getElementById(`img-${day}`);
-                        img.src = data.imageUrl; img.style.display = 'block';
-                    }
+        onSnapshot(doc(db, "travel", day), (doc) => {
+            if (doc.exists()) {
+                const data = doc.data();
+                document.getElementById(`memo-${day}`).value = data.memo || "";
+                if (data.imageUrl) {
+                    const img = document.getElementById(`img-${day}`);
+                    img.src = data.imageUrl; img.style.display = 'block';
                 }
-            });
-        }
+            }
+        });
     });
 
     window.go = (n) => {

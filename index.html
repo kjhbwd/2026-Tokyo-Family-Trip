@@ -6,17 +6,24 @@
     <title>도쿄 가족여행 2026</title>
     <style>
         :root { --main: #ff4757; --bg: #f8f9fa; --card: #ffffff; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); margin: 0; padding-bottom: 100px; color: #333; line-height: 1.6; }
-        .header { background: var(--main); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; font-weight: bold; font-size: 1.2rem; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); margin: 0; padding-bottom: 100px; color: #333; }
+        .header { background: var(--main); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; font-weight: bold; font-size: 1.2rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .card { background: var(--card); margin: 15px; padding: 20px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: none; }
         .card.active { display: block; }
         h2 { font-size: 1.3rem; color: var(--main); margin-top: 0; border-bottom: 2px solid #fff0f1; padding-bottom: 8px; }
-        h3 { font-size: 1.05rem; margin: 15px 0 5px; color: #444; }
         .info-item { font-size: 0.9rem; margin-bottom: 8px; padding-left: 12px; border-left: 3px solid #ddd; }
-        .highlight { color: #e74c3c; font-weight: bold; }
+        
+        /* 사진 및 삭제 버튼 스타일 */
+        .photo-container { position: relative; display: inline-block; margin: 5px; }
+        .photo-item { width: 100px; height: 100px; object-fit: cover; border-radius: 10px; border: 1px solid #eee; }
+        .del-btn { 
+            position: absolute; top: -5px; right: -5px; background: rgba(0,0,0,0.6); color: white; 
+            border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; cursor: pointer;
+        }
+
         textarea { width: 100%; height: 80px; border: 1px solid #eee; border-radius: 10px; padding: 12px; margin-top: 20px; box-sizing: border-box; font-family: inherit; background: #fffdf0; }
-        .btn-up { background: #2ed573; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; margin-top: 10px; cursor: pointer; font-size: 1rem; }
-        img { width: 100%; border-radius: 10px; margin-top: 15px; display: none; border: 1px solid #eee; }
+        .upload-btn { display: inline-block; padding: 8px 15px; background: #eee; border-radius: 8px; font-size: 0.85rem; cursor: pointer; margin-top: 10px; border: 1px solid #ddd; }
+        
         .nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; border-top: 1px solid #eee; height: 75px; z-index: 100; }
         .nav-item { flex: 1; text-align: center; padding: 12px 0; color: #999; cursor: pointer; font-size: 0.8rem; border-right: 1px solid #f9f9f9; }
         .nav-item.active { color: var(--main); font-weight: bold; background: #fffafa; }
@@ -29,88 +36,25 @@
 <div id="day1" class="card active">
     <h2>DAY 1: 공항 & 도쿄타워</h2>
     <p>📅 1월 16일 (목)</p>
-    <h3>✈️ 나리타 도착 (15:00)</h3>
-    <div class="info-item">• <b>스이카 발급:</b> B1F JR EAST 센터/자판기 (2000엔: 보증금 500+충전 1500)</div>
-    <div class="info-item">• <b>아사쿠사 이동:</b> 액세스 특급 플랫폼 1·2번 (1370엔, 60분)</div>
-    <h3>🏨 숙소: 아사쿠사 뷰 호텔</h3>
-    <div class="info-item">• 아사쿠사역 A4 출구 → 도보 7~8분</div>
-    <h3>🗼 도쿄타워 & 저녁</h3>
-    <div class="info-item">• <b>라멘 카나다야:</b> 다이몬역 A6 → 30m 직진 → T자 교차로 좌회전</div>
-    <div class="info-item">• <b>난스케 바이스(햄버그):</b> 타워 왼쪽 길 → 400m 직진 → 패밀리마트 옆</div>
-    <textarea id="memo-day1" onblur="saveMemo('day1')" placeholder="📝 1일차 메모를 남겨보세요!"></textarea>
-    <img id="img-day1"><input type="file" id="f-day1" hidden onchange="uploadPhoto('day1', this.files[0])">
-    <button class="btn-up" onclick="document.getElementById('f-day1').click()">📷 사진 올리기</button>
+    <div class="info-item">✈️ 15:00 나리타 도착</div>
+    <div class="info-item">📍 숙소: 아사쿠사 뷰 호텔</div>
+    <div id="photos-day1"></div>
+    <label class="upload-btn">📷 사진 올리기 <input type="file" hidden onchange="uploadPhoto('day1', this)"></label>
+    <textarea id="memo-day1" onblur="saveMemo('day1')" placeholder="메모를 남겨보세요!"></textarea>
 </div>
-
-<div id="day2" class="card">
-    <h2>DAY 2: 아카사카 & 시부야</h2>
-    <p>📅 1월 17일 (금)</p>
-    <h3>⛩️ 히에신사 (10:00)</h3>
-    <div class="info-item">• 아카사카미츠케역 11번 출구 → 도보 7분</div>
-    <h3>🎭 아카사카 ACT 씨어터</h3>
-    <div class="info-item">• 11:45 입장 / 12:15 공연 시작 (3시간 30분 공연)</div>
-    <h3>🏙️ 시부야 (17:00~)</h3>
-    <div class="info-item">• <b>시부야 스카이:</b> 예약 시간(17:00) 준수 필수!</div>
-    <div class="info-item">• <b>귀가:</b> 시부야역 → 긴자선(노랑) 직행 (약 35분)</div>
-    <textarea id="memo-day2" onblur="saveMemo('day2')" placeholder="📝 2일차 메모..."></textarea>
-    <img id="img-day2"><input type="file" id="f-day2" hidden onchange="uploadPhoto('day2', this.files[0])">
-    <button class="btn-up" onclick="document.getElementById('f-day2').click()">📷 사진 올리기</button>
-</div>
-
-<div id="day3" class="card">
-    <h2>DAY 3: 해리포터 & 스카이트리</h2>
-    <p>📅 1월 18일 (토)</p>
-    <h3>🥣 아침: 요시노야 (08:00)</h3>
-    <div class="info-item">• 호텔 도보 4분 (규동/아침세트 500~650엔)</div>
-    <h3>⚡ 해리포터 스튜디오 (10:30)</h3>
-    <div class="info-item">• 이동: 아사쿠사 → 오시아게 → 시부야 → 이케부쿠로 → 도시마엔</div>
-    <h3>🗼 스카이트리 (15:00~)</h3>
-    <div class="info-item">• 전망대 & 소라마치 쇼핑몰 (식당가 이용 편리)</div>
-    <textarea id="memo-day3" onblur="saveMemo('day3')"></textarea>
-    <img id="img-day3"><input type="file" id="f-day3" hidden onchange="uploadPhoto('day3', this.files[0])">
-    <button class="btn-up" onclick="document.getElementById('f-day3').click()">📷 사진 올리기</button>
-</div>
-
-<div id="day4" class="card">
-    <h2>DAY 4: 도쿄 디즈니씨</h2>
-    <p>📅 1월 19일 (일)</p>
-    <h3>🚍 가는 법</h3>
-    <div class="info-item">1. 아사쿠사역(분홍색) → 신바시역 환승</div>
-    <div class="info-item">2. 신바시 → JR 게이요선 → 마이하마역</div>
-    <div class="info-item">3. 역 앞 버스터미널 '디즈니씨행' (260엔)</div>
-    <h3>🎢 놀이기구 추천</h3>
-    <div class="info-item">• 저니 투 더 센터, 타워 오브 테러, 인디아나 존스</div>
-    <textarea id="memo-day4" onblur="saveMemo('day4')"></textarea>
-    <img id="img-day4"><input type="file" id="f-day4" hidden onchange="uploadPhoto('day4', this.files[0])">
-    <button class="btn-up" onclick="document.getElementById('f-day4').click()">📷 사진 올리기</button>
-</div>
-
-<div id="day5" class="card">
-    <h2>DAY 5: 귀국 (나리타 공항)</h2>
-    <p>📅 1월 20일 (월)</p>
-    <h3>🚆 열차 주의사항</h3>
-    <div class="info-item">• 아사쿠사역 <b>2번 플랫폼</b> (나리타 방향)</div>
-    <div class="info-item">• <span class="highlight">⚠️ 주의:</span> "印旛日本医大"행 절대 탑승 금지!</div>
-    <div class="info-item">• 요금: 1320엔, 약 60분 소요</div>
-    <textarea id="memo-day5" onblur="saveMemo('day5')"></textarea>
-    <img id="img-day5"><input type="file" id="f-day5" hidden onchange="uploadPhoto('day5', this.files[0])">
-    <button class="btn-up" onclick="document.getElementById('f-day5').click()">📷 사진 올리기</button>
-</div>
-
 <div class="nav">
     <div class="nav-item active" onclick="go(1)">16(목)<br>1일차</div>
-    <div class="nav-item" onclick="go(2)">17(금)<br>2일차</div>
-    <div class="nav-item" onclick="go(3)">18(토)<br>3일차</div>
-    <div class="nav-item" onclick="go(4)">19(일)<br>4일차</div>
-    <div class="nav-item" onclick="go(5)">20(월)<br>5일차</div>
+    <div class="nav-item" onclick="go(2)">17(금)</div>
+    <div class="nav-item" onclick="go(3)">18(토)</div>
+    <div class="nav-item" onclick="go(4)">19(일)</div>
+    <div class="nav-item" onclick="go(5)">20(월)</div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-    import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-storage.js";
+    import { getFirestore, doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-storage.js";
 
-    // ✅ 사용자님의 실제 Firebase 키값 적용 완료!
     const firebaseConfig = {
         apiKey: "AIzaSyBweeHd4dCsd82Q2pDxPnP9IU6vjdi-S5M",
         authDomain: "tokyo-trip-2026-family.firebaseapp.com",
@@ -124,31 +68,66 @@
     const db = getFirestore(app);
     const storage = getStorage(app);
 
+    // 사진 업로드 기능
+    window.uploadPhoto = async (day, input) => {
+        if (!input.files[0]) return;
+        const file = input.files[0];
+        const fileName = `${Date.now()}_${file.name}`;
+        const storageRef = ref(storage, `photos/${day}/${fileName}`);
+        
+        const snapshot = await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(snapshot.ref);
+        
+        await setDoc(doc(db, "travel", day), { 
+            photos: arrayUnion({ url, name: fileName }) 
+        }, { merge: true });
+        alert("사진이 올라갔습니다!");
+    };
+
+    // 사진 삭제 기능 (Storage와 Firestore 동시 삭제)
+    window.deletePhoto = async (day, photoData) => {
+        if (!confirm("이 사진을 정말 삭제할까요?")) return;
+        
+        try {
+            // 1. Storage에서 삭제
+            const photoRef = ref(storage, `photos/${day}/${photoData.name}`);
+            await deleteObject(photoRef);
+            
+            // 2. Firestore 데이터에서 삭제
+            await updateDoc(doc(db, "travel", day), {
+                photos: arrayRemove(photoData)
+            });
+            alert("삭제되었습니다.");
+        } catch (e) {
+            console.error(e);
+            alert("삭제 중 오류가 발생했습니다.");
+        }
+    };
+
+    // 메모 저장
     window.saveMemo = async (day) => {
         const val = document.getElementById(`memo-${day}`).value;
-        localStorage.setItem(day, val);
         await setDoc(doc(db, "travel", day), { memo: val }, { merge: true });
     };
 
-    window.uploadPhoto = async (day, file) => {
-        if (!file) return;
-        const sRef = ref(storage, `photos/${day}_${Date.now()}`);
-        await uploadBytes(sRef, file);
-        const url = await getDownloadURL(sRef);
-        await setDoc(doc(db, "travel", day), { imageUrl: url }, { merge: true });
-    };
-
-    const days = ['day1', 'day2', 'day3', 'day4', 'day5'];
-    days.forEach(day => {
-        const local = localStorage.getItem(day);
-        if(local) document.getElementById(`memo-${day}`).value = local;
-        onSnapshot(doc(db, "travel", day), (doc) => {
-            if (doc.exists()) {
-                const data = doc.data();
-                document.getElementById(`memo-${day}`).value = data.memo || "";
-                if (data.imageUrl) {
-                    const img = document.getElementById(`img-${day}`);
-                    img.src = data.imageUrl; img.style.display = 'block';
+    // 실시간 동기화
+    ['day1','day2','day3','day4','day5'].forEach(day => {
+        onSnapshot(doc(db, "travel", day), (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                // 메모 동기화
+                const memoEl = document.getElementById(`memo-${day}`);
+                if (memoEl) memoEl.value = data.memo || "";
+                
+                // 사진 동기화 및 삭제 버튼 렌더링
+                const photoDiv = document.getElementById(`photos-${day}`);
+                if (photoDiv) {
+                    photoDiv.innerHTML = (data.photos || []).map(p => `
+                        <div class="photo-container">
+                            <img src="${p.url}" class="photo-item">
+                            <button class="del-btn" onclick="deletePhoto('${day}', ${JSON.stringify(p).replace(/"/g, '&quot;')})">✕</button>
+                        </div>
+                    `).join('');
                 }
             }
         });

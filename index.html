@@ -9,14 +9,10 @@
         import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-storage.js";
 
-        // 🔥 [주의] 이 부분에 본인의 Firebase 키를 넣어야 실시간 공유가 됩니다! 
-        // 키가 없어도 화면이 뜨도록 예외처리를 해두었습니다.
+        // 🔥 본인의 Firebase 설정값을 여기에 꼭 넣으세요!
         const firebaseConfig = {
-            apiKey: "본인의_키_입력",
-            authDomain: "본인의_도메인_입력",
-            projectId: "본인의_ID_입력",
-            storageBucket: "본인의_버킷_입력",
-            appId: "본인의_APPID_입력"
+            apiKey: "본인의_키", authDomain: "ID.firebaseapp.com", projectId: "ID",
+            storageBucket: "ID.appspot.com", appId: "ID"
         };
 
         let db, storage;
@@ -24,34 +20,27 @@
             const app = initializeApp(firebaseConfig);
             db = getFirestore(app);
             storage = getStorage(app);
-            console.log("Firebase 연결 성공!");
-        } catch (e) {
-            console.warn("Firebase 키가 없어 로컬 모드로 작동합니다.");
-        }
+        } catch (e) { console.warn("Firebase 미설정: 로컬 모드로 작동"); }
 
-        // 메모 저장 함수
         window.saveMemo = async (day) => {
             const val = document.getElementById(`memo-${day}`).value;
-            localStorage.setItem(day, val); // 일단 폰에 저장
+            localStorage.setItem(day, val);
             if(db) await setDoc(doc(db, "travel", day), { memo: val }, { merge: true });
         };
 
-        // 사진 업로드 함수
         window.uploadPhoto = async (day, file) => {
-            if (!file || !storage) { alert("Firebase 설정이 필요합니다."); return; }
+            if (!file || !storage) return;
             const sRef = ref(storage, `photos/${day}_${Date.now()}`);
             await uploadBytes(sRef, file);
             const url = await getDownloadURL(sRef);
-            await setDoc(doc(db, "travel", day), { imageUrl: url }, { merge: true });
+            if(db) await setDoc(doc(db, "travel", day), { imageUrl: url }, { merge: true });
+            alert("사진 업로드 완료!");
         };
 
-        // 실시간 동기화 설정
         const days = ['day1', 'day2', 'day3', 'day4', 'day5'];
         days.forEach(day => {
-            // 로컬에 저장된게 있다면 먼저 보여주기
             const local = localStorage.getItem(day);
             if(local) document.getElementById(`memo-${day}`).value = local;
-
             if(db) {
                 onSnapshot(doc(db, "travel", day), (doc) => {
                     if (doc.exists()) {
@@ -67,21 +56,22 @@
         });
     </script>
     <style>
-        :root { --main: #ff4757; --bg: #f8f9fa; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); margin: 0; padding-bottom: 100px; color: #333; line-height: 1.6; }
-        .header { background: var(--main); color: white; padding: 20px; text-align: center; position: sticky; top: 0; z-index: 10; }
-        .card { background: white; margin: 15px; padding: 20px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        h2 { font-size: 1.25rem; color: var(--main); margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        h3 { font-size: 1rem; color: #555; margin: 15px 0 5px; }
-        .info { font-size: 0.9rem; margin: 5px 0; }
-        .route-step { display: block; padding-left: 15px; border-left: 2px solid #ddd; margin: 10px 0; font-size: 0.85rem; }
-        .warning { color: #e74c3c; font-weight: bold; }
-        textarea { width: 100%; height: 80px; border: 1px solid #ddd; border-radius: 10px; padding: 10px; margin-top: 15px; box-sizing: border-box; }
-        .btn-up { background: #2ed573; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; margin-top: 10px; }
-        img { width: 100%; border-radius: 10px; margin-top: 15px; display: none; }
-        .nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; border-top: 1px solid #eee; height: 70px; }
-        .nav-item { flex: 1; text-align: center; font-size: 0.75rem; padding: 12px 0; color: #999; }
-        .nav-item.active { color: var(--main); font-weight: bold; }
+        :root { --main: #ff4757; --accent: #1e90ff; }
+        body { font-family: -apple-system, sans-serif; background: #f4f6f9; margin: 0; padding-bottom: 90px; color: #333; line-height: 1.5; }
+        .header { background: var(--main); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .card { background: white; margin: 12px; padding: 18px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        h2 { font-size: 1.2rem; color: var(--main); margin: 0 0 10px 0; border-bottom: 2px solid #fff0f1; padding-bottom: 8px; }
+        h3 { font-size: 1rem; margin: 15px 0 5px 0; display: flex; align-items: center; }
+        .time { background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; margin-right: 8px; }
+        .desc { font-size: 0.9rem; margin-bottom: 10px; padding-left: 10px; border-left: 2px solid #ddd; }
+        .highlight { color: #e74c3c; font-weight: bold; }
+        .btn-map { background: var(--accent); color: white; text-decoration: none; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; display: inline-block; margin-top: 5px; }
+        textarea { width: 100%; height: 80px; border: 1px solid #ddd; border-radius: 10px; padding: 10px; box-sizing: border-box; margin-top: 15px; font-family: inherit; }
+        .btn-up { background: #2ed573; color: white; border: none; padding: 10px; width: 100%; border-radius: 10px; font-weight: bold; margin-top: 10px; font-size: 0.9rem; cursor: pointer; }
+        img { width: 100%; border-radius: 10px; margin-top: 15px; display: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; border-top: 1px solid #eee; height: 70px; z-index: 100; }
+        .nav-item { flex: 1; text-align: center; padding: 12px 0; color: #999; cursor: pointer; font-size: 0.75rem; }
+        .nav-item.active { color: var(--main); font-weight: bold; background: #fffafa; }
         .day-content { display: none; }
         .day-content.active { display: block; }
     </style>
@@ -92,26 +82,27 @@
 
 <div id="day1" class="day-content active">
     <div class="card">
-        <h2>DAY 1: 공항 입성 & 도쿄타워</h2>
-        <div class="info">📅 1월 16일 (목)</div>
+        <h2>DAY 1: 공항 입성 & 도쿄타워 야경</h2>
+        <div class="desc">나리타 T2 → 수이카 발급 → 아사쿠사 뷰 호텔 → 도쿄타워 → 저녁식사 → 아사쿠사 야간 산책</div>
         
-        <h3>✈️ 나리타 공항(T2) 도착 (15:00)</h3>
-        <div class="route-step">
-            • <b>스이카 발급:</b> B1F JR EAST 센터 또는 자판기 (2,000엔: 보증금 500+충전 1,500)<br>
-            • <b>아사쿠사 이동:</b> 액세스 특급 1·2번 플랫폼 (1,370엔, 약 60분)
+        <h3><span class="time">15:00</span>나리타 공항(T2) 도착</h3>
+        <div class="desc">
+            • <b>수이카 발급:</b> B1F JR EAST 센터 또는 자판기 (2,000엔: 보증금 500+충전 1,500)<br>
+            • <b>이동:</b> 액세스 특급(Access Express) 1·2번 플랫폼 (1,370엔, 약 60분)
         </div>
 
-        <h3>🏨 숙소: 아사쿠사 뷰 호텔</h3>
-        <div class="route-step">• 아사쿠사역 A4 출구 → 도보 7~8분</div>
+        <h3><span class="time">16:30</span>아사쿠사 뷰 호텔 체크인</h3>
+        <div class="desc">• <b>아사쿠사역 A4 출구</b> → 도보 7~8분</div>
 
-        <h3>🗼 도쿄타워 이동 & 저녁식사</h3>
-        <div class="route-step">
+        <h3><span class="time">18:00</span>도쿄타워 이동 & 식사</h3>
+        <div class="desc">
             • <b>이동:</b> 아사쿠사선(빨강) 1번 플랫폼 → 다이몬역 A6 출구<br>
             • <b>라멘 카나다야:</b> 메인출구 30m 직진 → T자 교차로 좌회전 → 200m 직진<br>
-            • <b>난스케 바이스(햄버그):</b> 왼쪽 길로 내려감 → 직진 → 400m 직진 → 패밀리마트 옆 골목
+            • <b>난스케 바이스(햄버그):</b> 도쿄타워 왼쪽 길 내려감 → 직진 → 400m 직진 → 패밀리마트 옆<br>
+            • <b>토리키조쿠:</b> 도보 8분 거리
         </div>
 
-        <textarea id="memo-day1" onblur="saveMemo('day1')" placeholder="메모를 남기세요..."></textarea>
+        <textarea id="memo-day1" onblur="saveMemo('day1')" placeholder="가족 공유 메모..."></textarea>
         <img id="img-day1"><input type="file" id="f-day1" hidden onchange="uploadPhoto('day1', this.files[0])">
         <button class="btn-up" onclick="document.getElementById('f-day1').click()">📷 사진 올리기</button>
     </div>
@@ -119,67 +110,5 @@
 
 <div id="day2" class="day-content">
     <div class="card">
-        <h2>DAY 2: 아카사카 & 시부야</h2>
-        <div class="info">📅 1월 17일 (금) [기존 3일차와 교체]</div>
-        
-        <h3>⛩️ 히에신사 (10:00)</h3>
-        <div class="route-step">아카사카미츠케역 11번 출구 → 도보 7분 (붉은 토리이 포토존)</div>
-
-        <h3>🎭 아카사카 ACT 씨어터</h3>
-        <div class="route-step">11:45 입장 / 12:15 공연 시작 (약 3시간 30분 공연)</div>
-
-        <h3>🏙️ 시부야 (17:00~)</h3>
-        <div class="route-step">
-            • <b>시부야 스카이:</b> 예약 시간(17:00) 준수 필수!<br>
-            • <b>저녁:</b> 이치란 라멘, 스키야, 우동 신<br>
-            • <b>쇼핑:</b> 스크램블 교차로, 돈키호테, 시부야109, 가챠샵
-        </div>
-
-        <textarea id="memo-day2" onblur="saveMemo('day2')"></textarea>
-        <img id="img-day2"><input type="file" id="f-day2" hidden onchange="uploadPhoto('day2', this.files[0])">
-        <button class="btn-up" onclick="document.getElementById('f-day2').click()">📷 사진 올리기</button>
-    </div>
-</div>
-
-<div id="day3" class="day-content">
-    <div class="card">
-        <h2>DAY 3: 해리포터 & 스카이트리</h2>
-        <div class="info">📅 1월 18일 (토) [기존 2일차와 교체]</div>
-        
-        <h3>🥣 아침: 요시노야 (08:00)</h3>
-        <div class="route-step">호텔 도보 4분 (규동/미소시루 세트 500~650엔)</div>
-
-        <h3>⚡ 해리포터 스튜디오 (10:30)</h3>
-        <div class="route-step">
-            • <b>이동:</b> 아사쿠사 → 오시아게 → 시부야 → 이케부쿠로 → 도시마엔<br>
-            • <b>관람:</b> 최소 3시간 소요, 사진 포인트 많음
-        </div>
-
-        <h3>🗼 스카이트리 (15:00~)</h3>
-        <div class="route-step">전망대 & 소라마치 쇼핑몰 (식당가 이용 편리)</div>
-
-        <textarea id="memo-day3" onblur="saveMemo('day3')"></textarea>
-        <img id="img-day3"><input type="file" id="f-day3" hidden onchange="uploadPhoto('day3', this.files[0])">
-        <button class="btn-up" onclick="document.getElementById('f-day3').click()">📷 사진 올리기</button>
-    </div>
-</div>
-
-<div id="day4" class="day-content">
-    <div class="card">
-        <h2>DAY 4: 도쿄 디즈니씨</h2>
-        <div class="info">📅 1월 19일 (일)</div>
-        
-        <h3>🚍 가는 법 (초정밀 안내)</h3>
-        <div class="route-step">
-            1. 아사쿠사역(분홍색) → 신바시역 (15분)<br>
-            2. 신바시 → JR 게이요선 환승 (도보 5~6분)<br>
-            3. 마이하마역 하차 → 버스 탑승(260엔, 7분)
-        </div>
-
-        <h3>🍽️ 추천 식당 & 놀이기구</h3>
-        <div class="route-step">
-            • <b>식당:</b> 세일링데이 뷔페, 카스피안 스낵, 리스토란테 디 카나렛토<br>
-            • <b>인기 라이드:</b> 저니 투 더 센터 오브 더 어스, 타워 오브 테러, 인디아나 존스
-        </div>
-
-        <textarea id="memo-day4"
+        <h2>DAY 2: 역사와 트렌드 (아카사카/시부야)</h2>
+        <div class="desc">호텔 → 히에신사 → 아카사카 ACT → 시부야 스카이 → 시부야 쇼핑

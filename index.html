@@ -8,7 +8,7 @@
         :root { --main: #ff4757; --bg: #f8f9fa; --card: #ffffff; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); margin: 0; padding-bottom: 100px; color: #333; }
         
-        /* 🔒 잠금 화면 스타일 */
+        /* 🔒 잠금 화면 */
         #lock-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--main); color: white; display: flex; flex-direction: column;
@@ -21,10 +21,10 @@
         }
         #lock-screen button {
             padding: 12px 40px; border: none; border-radius: 25px; background: white; 
-            color: var(--main); font-weight: bold; font-size: 1rem; cursor: pointer;
+            color: var(--main); font-weight: bold; font-size: 1.1rem; cursor: pointer;
         }
 
-        /* 📱 메인 앱 콘텐츠 (처음엔 숨김) */
+        /* 📱 메인 콘텐츠 */
         #app-content { display: none; }
         .header { background: var(--main); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; font-weight: bold; }
         .card { background: var(--card); margin: 15px; padding: 20px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: none; }
@@ -32,20 +32,18 @@
         h2 { font-size: 1.2rem; color: var(--main); margin-top: 0; border-bottom: 2px solid #fff0f1; padding-bottom: 8px; }
         .info-item { font-size: 0.9rem; margin-bottom: 6px; padding-left: 10px; border-left: 3px solid #eee; }
         
-        /* 사진 및 삭제 버튼 */
         .photo-container { position: relative; display: inline-block; margin: 5px; }
         .photo-item { width: 95px; height: 95px; object-fit: cover; border-radius: 10px; border: 1px solid #eee; }
         .del-btn { 
             position: absolute; top: -5px; right: -5px; background: rgba(0,0,0,0.7); color: white; 
-            border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; cursor: pointer;
+            border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 12px;
         }
 
-        textarea { width: 100%; height: 80px; border: 1px solid #eee; border-radius: 10px; padding: 10px; margin-top: 15px; box-sizing: border-box; background: #fffdf0; font-family: inherit; font-size: 0.9rem; }
+        textarea { width: 100%; height: 80px; border: 1px solid #eee; border-radius: 10px; padding: 10px; margin-top: 15px; box-sizing: border-box; background: #fffdf0; font-size: 0.9rem; }
         .upload-btn { display: inline-block; padding: 8px 15px; background: #f0f0f0; border-radius: 8px; font-size: 0.85rem; cursor: pointer; margin-top: 10px; border: 1px solid #ddd; }
         
-        /* 하단 네비게이션 */
         .nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; border-top: 1px solid #eee; height: 75px; z-index: 100; }
-        .nav-item { flex: 1; text-align: center; padding: 12px 0; color: #999; cursor: pointer; font-size: 0.75rem; border-right: 1px solid #f9f9f9; }
+        .nav-item { flex: 1; text-align: center; padding: 12px 0; color: #999; cursor: pointer; font-size: 0.75rem; }
         .nav-item.active { color: var(--main); font-weight: bold; background: #fffafa; }
     </style>
 </head>
@@ -53,7 +51,7 @@
 
 <div id="lock-screen">
     <h2>🔑 가족 전용 암호</h2>
-    <input type="password" id="pw-input" maxlength="4" placeholder="4자리 숫자">
+    <input type="password" id="pw-input" maxlength="4" placeholder="4자리 숫자" inputmode="numeric">
     <button onclick="checkPassword()">입장하기</button>
 </div>
 
@@ -66,15 +64,15 @@
         <div class="info-item">🏨 아사쿠사 뷰 호텔 체크인</div>
         <div id="photos-day1"></div>
         <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day1', this)"></label>
-        <textarea id="memo-day1" onblur="saveMemo('day1')" placeholder="도착 소감을 남겨보세요!"></textarea>
+        <textarea id="memo-day1" onblur="saveMemo('day1')" placeholder="메모를 남기세요!"></textarea>
     </div>
 
     <div id="day2" class="card">
         <h2>DAY 2: 디즈니씨 (1/17)</h2>
-        <div class="info-item">🎡 온종일 디즈니씨 탐험</div>
+        <div class="info-item">🎡 온종일 디즈니씨</div>
         <div id="photos-day2"></div>
         <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day2', this)"></label>
-        <textarea id="memo-day2" onblur="saveMemo('day2')" placeholder="디즈니의 추억!"></textarea>
+        <textarea id="memo-day2" onblur="saveMemo('day2')" placeholder="추억 기록!"></textarea>
     </div>
 
     <div id="day3" class="card">
@@ -82,24 +80,21 @@
         <div class="info-item">🏙️ 시부야 스카이 전망대</div>
         <div id="photos-day3"></div>
         <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day3', this)"></label>
-        <textarea id="memo-day3" onblur="saveMemo('day3')" placeholder="쇼핑 및 맛집 기록"></textarea>
+        <textarea id="memo-day3" onblur="saveMemo('day3')"></textarea>
     </div>
 
     <div id="day4" class="card">
-        <h2>DAY 4: 하라주쿠 & 카페 (1/19)</h2>
-        <div class="info-item">🥞 오모테산도 카페 거리</div>
+        <h2>DAY 4: 하라주쿠 & 오모테산도 (1/19)</h2>
         <div id="photos-day4"></div>
         <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day4', this)"></label>
-        <textarea id="memo-day4" onblur="saveMemo('day4')" placeholder="오늘의 힐링 포인트!"></textarea>
+        <textarea id="memo-day4" onblur="saveMemo('day4')"></textarea>
     </div>
 
     <div id="day5" class="card">
         <h2>DAY 5: 아사쿠사 & 귀국 (1/20)</h2>
-        <div class="info-item">🏮 센소지 & 나카미세 거리</div>
-        <div class="info-item">✈️ 저녁 비행기 귀국</div>
         <div id="photos-day5"></div>
         <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day5', this)"></label>
-        <textarea id="memo-day5" onblur="saveMemo('day5')" placeholder="여행의 마무리 소감"></textarea>
+        <textarea id="memo-day5" onblur="saveMemo('day5')"></textarea>
     </div>
 
     <div class="nav">
@@ -121,4 +116,9 @@
         authDomain: "tokyo-trip-2026-family.firebaseapp.com",
         projectId: "tokyo-trip-2026-family",
         storageBucket: "tokyo-trip-2026-family.firebasestorage.app",
-        messagingSenderId: "
+        messagingSenderId: "669648921196",
+        appId: "1:669648921196:web:79df32780bea9a4e6dee49"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(

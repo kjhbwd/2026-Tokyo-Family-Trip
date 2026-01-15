@@ -9,20 +9,20 @@
         body { font-family: -apple-system, sans-serif; background: var(--bg); margin: 0; padding-bottom: 100px; color: #333; }
         #lock-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--main); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2000; }
         #pw-input { width: 180px; padding: 15px; border: none; border-radius: 10px; text-align: center; font-size: 1.5rem; margin-bottom: 20px; outline: none; letter-spacing: 5px; }
-        #lock-screen button { padding: 12px 40px; border: none; border-radius: 25px; background: white; color: var(--main); font-weight: bold; font-size: 1.1rem; cursor: pointer; }
+        #lock-screen button { padding: 12px 40px; border: none; border-radius: 25px; background: white; color: var(--main); font-weight: bold; cursor: pointer; }
         #app-content { display: none; }
         .header { background: var(--main); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; font-weight: bold; }
         .card { background: var(--card); margin: 15px; padding: 20px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: none; }
         .card.active { display: block; }
         h2 { font-size: 1.2rem; color: var(--main); margin-top: 0; border-bottom: 2px solid #fff0f1; padding-bottom: 8px; }
-        .info-item { font-size: 0.9rem; margin-bottom: 6px; padding-left: 10px; border-left: 3px solid #eee; }
+        .info-item { font-size: 0.95rem; margin-bottom: 8px; padding-left: 10px; border-left: 3px solid #ff4757; line-height: 1.5; }
         .photo-container { position: relative; display: inline-block; margin: 5px; }
-        .photo-item { width: 95px; height: 95px; object-fit: cover; border-radius: 10px; border: 1px solid #eee; }
+        .photo-item { width: 100px; height: 100px; object-fit: cover; border-radius: 10px; border: 1px solid #eee; }
         .del-btn { position: absolute; top: -5px; right: -5px; background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; }
-        textarea { width: 100%; height: 80px; border: 1px solid #eee; border-radius: 10px; padding: 10px; margin-top: 15px; box-sizing: border-box; background: #fffdf0; font-size: 0.9rem; }
-        .upload-btn { display: inline-block; padding: 8px 15px; background: #f0f0f0; border-radius: 8px; font-size: 0.85rem; cursor: pointer; margin-top: 10px; border: 1px solid #ddd; }
+        textarea { width: 100%; height: 100px; border: 1px solid #eee; border-radius: 10px; padding: 12px; margin-top: 20px; box-sizing: border-box; background: #fffdf0; font-size: 0.9rem; }
+        .upload-btn { display: inline-block; padding: 10px 20px; background: #f0f0f0; border-radius: 10px; font-size: 0.9rem; cursor: pointer; margin-top: 10px; border: 1px solid #ddd; font-weight: bold; }
         .nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; border-top: 1px solid #eee; height: 75px; z-index: 100; }
-        .nav-item { flex: 1; text-align: center; padding: 12px 0; color: #999; cursor: pointer; font-size: 0.75rem; }
+        .nav-item { flex: 1; text-align: center; padding: 12px 0; color: #999; cursor: pointer; font-size: 0.8rem; }
         .nav-item.active { color: var(--main); font-weight: bold; background: #fffafa; }
     </style>
 </head>
@@ -30,137 +30,14 @@
 
 <div id="lock-screen">
     <h2>🔑 가족 전용 암호</h2>
-    <input type="password" id="pw-input" maxlength="4" placeholder="4자리 숫자" inputmode="numeric">
+    <input type="password" id="pw-input" maxlength="4" placeholder="4자리" inputmode="numeric">
     <button onclick="checkPassword()">입장하기</button>
-    <p style="font-size: 0.7rem; margin-top: 20px; opacity: 0.7;">암호: 1214</p>
 </div>
 
 <div id="app-content">
     <div class="header">도쿄 가족여행 🇯🇵</div>
+
     <div id="day1" class="card active">
-        <h2>DAY 1: 공항 & 도쿄타워 (1/16)</h2>
+        <h2>DAY 1: 공항 & 아사쿠사 (1/16)</h2>
         <div class="info-item">✈️ 15:00 나리타 공항 도착</div>
-        <div class="info-item">🏨 아사쿠사 뷰 호텔 체크인</div>
-        <div id="photos-day1"></div>
-        <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day1', this)"></label>
-        <textarea id="memo-day1" onblur="saveMemo('day1')" placeholder="도착 소감을 남기세요!"></textarea>
-    </div>
-    <div id="day2" class="card">
-        <h2>DAY 2: 디즈니씨 (1/17)</h2>
-        <div class="info-item">🎡 온종일 디즈니씨 탐험</div>
-        <div id="photos-day2"></div>
-        <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day2', this)"></label>
-        <textarea id="memo-day2" onblur="saveMemo('day2')"></textarea>
-    </div>
-    <div id="day3" class="card">
-        <h2>DAY 3: 시부야 & 신주쿠 (1/18)</h2>
-        <div class="info-item">🏙️ 시부야 스카이 전망대</div>
-        <div id="photos-day3"></div>
-        <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day3', this)"></label>
-        <textarea id="memo-day3" onblur="saveMemo('day3')"></textarea>
-    </div>
-    <div id="day4" class="card">
-        <h2>DAY 4: 하라주쿠 & 오모테산도 (1/19)</h2>
-        <div id="photos-day4"></div>
-        <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day4', this)"></label>
-        <textarea id="memo-day4" onblur="saveMemo('day4')"></textarea>
-    </div>
-    <div id="day5" class="card">
-        <h2>DAY 5: 아사쿠사 & 귀국 (1/20)</h2>
-        <div class="info-item">✈️ 저녁 비행기 귀국</div>
-        <div id="photos-day5"></div>
-        <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day5', this)"></label>
-        <textarea id="memo-day5" onblur="saveMemo('day5')"></textarea>
-    </div>
-    <div class="nav">
-        <div class="nav-item active" onclick="go(1)">16(목)<br>1일차</div>
-        <div class="nav-item" onclick="go(2)">17(금)<br>2일차</div>
-        <div class="nav-item" onclick="go(3)">18(토)<br>3일차</div>
-        <div class="nav-item" onclick="go(4)">19(일)<br>4일차</div>
-        <div class="nav-item" onclick="go(5)">20(월)<br>5일차</div>
-    </div>
-</div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-    import { getFirestore, doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-storage.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyBweeHd4dCsd82Q2pDxPnP9IU6vjdi-S5M",
-        authDomain: "tokyo-trip-2026-family.firebaseapp.com",
-        projectId: "tokyo-trip-2026-family",
-        storageBucket: "tokyo-trip-2026-family.firebasestorage.app",
-        messagingSenderId: "669648921196",
-        appId: "1:669648921196:web:79df32780bea9a4e6dee49"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
-
-    // ✅ 비밀번호 체크 (1214 & 2026 둘 다 허용)
-    window.checkPassword = () => {
-        const input = document.getElementById('pw-input').value.trim();
-        if (input === "1214" || input === "2026") {
-            document.getElementById('lock-screen').style.display = 'none';
-            document.getElementById('app-content').style.display = 'block';
-        } else {
-            alert("비밀번호가 틀렸습니다!");
-            document.getElementById('pw-input').value = "";
-        }
-    };
-
-    window.uploadPhoto = async (day, input) => {
-        if (!input.files[0]) return;
-        const file = input.files[0];
-        const fileName = Date.now() + "_" + file.name;
-        const storageRef = ref(storage, "photos/" + day + "/" + fileName);
-        try {
-            const snapshot = await uploadBytes(storageRef, file);
-            const url = await getDownloadURL(snapshot.ref);
-            await setDoc(doc(db, "travel", day), { photos: arrayUnion({ url, name: fileName }) }, { merge: true });
-        } catch (e) { alert("저장 실패!"); }
-    };
-
-    window.deletePhoto = async (day, photoData) => {
-        if (!confirm("삭제하시겠습니까?")) return;
-        try {
-            await deleteObject(ref(storage, "photos/" + day + "/" + photoData.name));
-            await updateDoc(doc(db, "travel", day), { photos: arrayRemove(photoData) });
-        } catch (e) { alert("삭제 실패!"); }
-    };
-
-    window.saveMemo = async (day) => {
-        const val = document.getElementById("memo-" + day).value;
-        await setDoc(doc(db, "travel", day), { memo: val }, { merge: true });
-    };
-
-    window.go = (n) => {
-        document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        document.getElementById('day' + n).classList.add('active');
-        document.querySelectorAll('.nav-item')[n-1].classList.add('active');
-        window.scrollTo(0,0);
-    };
-
-    ['day1','day2','day3','day4','day5'].forEach(day => {
-        onSnapshot(doc(db, "travel", day), (docSnap) => {
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                if (document.getElementById("memo-" + day)) document.getElementById("memo-" + day).value = data.memo || "";
-                const photoDiv = document.getElementById("photos-" + day);
-                if (photoDiv) {
-                    photoDiv.innerHTML = (data.photos || []).map(p => `
-                        <div class="photo-container">
-                            <img src="${p.url}" class="photo-item">
-                            <button class="del-btn" onclick="deletePhoto('${day}', ${JSON.stringify(p).replace(/"/g, '&quot;')})">✕</button>
-                        </div>
-                    `).join('');
-                }
-            }
-        });
-    });
-</script>
-</body>
-</html>
+        <div class="info-item">🚆 스카이라이너 이동 (우에노행

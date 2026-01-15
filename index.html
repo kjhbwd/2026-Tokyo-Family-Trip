@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>도쿄 가족여행 2026 - 최종본</title>
+    <title>도쿄 가족여행 2026 🇯🇵</title>
     <style>
         :root { --main: #ff4757; --bg: #f8f9fa; --card: #ffffff; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); margin: 0; padding-bottom: 100px; color: #333; }
+        /* 잠금 화면 */
         #lock-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--main); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2000; }
         #pw-input { width: 180px; padding: 15px; border: none; border-radius: 10px; text-align: center; font-size: 1.5rem; margin-bottom: 20px; outline: none; letter-spacing: 5px; }
         #lock-screen button { padding: 12px 40px; border: none; border-radius: 25px; background: white; color: var(--main); font-weight: bold; cursor: pointer; }
+        /* 메인 콘텐츠 */
         #app-content { display: none; }
         .header { background: var(--main); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; font-weight: bold; }
         .card { background: var(--card); margin: 15px; padding: 20px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: none; }
@@ -121,16 +123,25 @@
     const db = getFirestore(app);
     const storage = getStorage(app);
 
+    // ✅ 비밀번호 체크 함수 (1214 고정)
     window.checkPassword = () => {
         const input = document.getElementById('pw-input').value.trim();
         if (input === "1214") {
             document.getElementById('lock-screen').style.display = 'none';
             document.getElementById('app-content').style.display = 'block';
+            localStorage.setItem('trip_auth_2026', 'true');
         } else {
             alert("비밀번호가 틀렸습니다!");
         }
     };
 
+    // 자동 입장 체크
+    if(localStorage.getItem('trip_auth_2026') === 'true') {
+        document.getElementById('lock-screen').style.display = 'none';
+        document.getElementById('app-content').style.display = 'block';
+    }
+
+    // 사진 및 메모 기능 (삭제 기능 포함)
     window.uploadPhoto = async (day, input) => {
         if (!input.files[0]) return;
         const file = input.files[0];

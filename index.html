@@ -1,1 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 도쿄 가족 여행 가이드</title>
+    <style>
+        :root { --main-bg: #f4f7f6; --accent-color: #ff4757; --card-bg: #ffffff; }
+        body { font-family: 'Pretendard', sans-serif; background-color: var(--main-bg); margin: 0; padding: 20px; color: #333; }
+        header { text-align: center; padding: 20px 0; background: var(--accent-color); color: white; border-radius: 15px; margin-bottom: 20px; }
+        .day-card { background: var(--card-bg); border-radius: 15px; padding: 20px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { border-left: 5px solid var(--accent-color); padding-left: 10px; color: var(--accent-color); }
+        .nav-box { background: #eef2f3; padding: 15px; border-radius: 10px; font-size: 0.9em; line-height: 1.6; }
+        .nav-step { margin-bottom: 10px; display: block; }
+        .photo-section { margin-top: 15px; }
+        .preview-img { width: 100%; max-height: 300px; object-fit: cover; border-radius: 10px; margin-top: 10px; display: none; }
+        textarea { width: 100%; height: 80px; margin-top: 10px; border-radius: 10px; border: 1px solid #ddd; padding: 10px; box-sizing: border-box; }
+        .save-btn { background: #2f3542; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 5px; }
+        .badge { background: #ffa502; color: white; padding: 2px 8px; border-radius: 5px; font-size: 0.8em; }
+    </style>
+</head>
+<body>
 
+<header>
+    <h1>🇯🇵 Tokyo Family Trip 2026</h1>
+    <p>2026.01.16 - 01.20 | Asakusa View Hotel</p>
+</header>
+
+<div class="day-card">
+    <h2>Day 1 (1/16) : 도쿄 입성</h2>
+    <div class="nav-box">
+        <strong>📍 나리타 공항 → 아사쿠사 뷰 호텔</strong><br>
+        <span class="nav-step">1. <b>나리타 공항 역</b>: 게이세이 스카이라이너(또는 본선) 탑승</span>
+        <span class="nav-step">2. <b>닛포리 역</b> 하차: JR 조반선(Joban Line) 환승</span>
+        <span class="nav-step">3. <b>미나미센주 역</b> 하차: 쓰쿠바 익스프레스(TX) 환승</span>
+        <span class="nav-step">4. <b>아사쿠사 역(TX)</b> 도착: <b>A2번 출구</b> 이용</span>
+        <span class="nav-step">5. 출구 나오자마자 오른쪽 높은 건물: <b>아사쿠사 뷰 호텔</b> 로비 도착</span>
+    </div>
+    <div class="photo-section">
+        <input type="file" accept="image/*" onchange="previewFile(this, 'img1')">
+        <img id="img1" class="preview-img">
+        <textarea id="memo1" placeholder="1일차 메모를 남기세요..."></textarea>
+        <button class="save-btn" onclick="saveMemo(1)">메모 저장</button>
+    </div>
+</div>
+
+<div class="day-card">
+    <h2>Day 2 (1/17) : 우에노 & 아키하바라 <span class="badge">변경됨</span></h2>
+    <div class="nav-box">
+        <strong>📍 아사쿠사 → 우에노 공원</strong><br>
+        <span class="nav-step">1. 호텔에서 '다와라마치 역'까지 도보 7분 이동</span>
+        <span class="nav-step">2. <b>긴자선(주황색)</b> 탑승 후 2정거장 뒤 '우에노 역' 하차</span>
+        <span class="nav-step">3. <b>7번 출구</b>를 통해 우에노 공원/동물원 진입</span>
+        <strong>📍 우에노 → 아메요코 → 아키하바라</strong><br>
+        <span class="nav-step">1. 우에노 공원에서 JR 우에노역 방면 '아메요코 시장' 도보 5분</span>
+        <span class="nav-step">2. 시장 길을 따라 쭉 직진하면 아키하바라까지 도보 15분 연결</span>
+    </div>
+    <div class="photo-section">
+        <input type="file" accept="image/*" onchange="previewFile(this, 'img2')">
+        <img id="img2" class="preview-img">
+        <textarea id="memo2" placeholder="2일차 메모를 남기세요..."></textarea>
+        <button class="save-btn" onclick="saveMemo(2)">메모 저장</button>
+    </div>
+</div>
+
+<div class="day-card">
+    <h2>Day 3 (1/18) : 센소지 & 스카이트리 <span class="badge">변경됨</span></h2>
+    <div class="nav-box">
+        <strong>📍 호텔 → 센소지(아사쿠사)</strong><br>
+        <span class="nav-step">1. 호텔 후문으로 나와 도보 5분이면 센소지 사찰 진입</span>
+        <span class="nav-step">2. <b>나카미세 도리</b>를 따라 전통 간식 체험</span>
+        <strong>📍 센소지 → 도쿄 스카이트리</strong><br>
+        <span class="nav-step">1. 스미다 강변 '아즈마바시' 다리를 건너 도보 15분</span>
+        <span class="nav-step">2. 또는 아사쿠사역에서 <b>도부 스카이트리 라인</b> 1정거장 이동</span>
+    </div>
+    <div class="photo-section">
+        <input type="file" accept="image/*" onchange="previewFile(this, 'img3')">
+        <img id="img3" class="preview-img">
+        <textarea id="memo3" placeholder="3일차 메모를 남기세요..."></textarea>
+        <button class="save-btn" onclick="saveMemo(3)">메모 저장</button>
+    </div>
+</div>
+
+<div class="day-card">
+    <h2>Day 4 (1/19) : 도심 쇼핑 (긴자/시부야)</h2>
+    <div class="nav-box">
+        <span class="nav-step">1. <b>긴자</b>: 다와라마치역(긴자선) -> 긴자역 하차 (A9 출구)</span>
+        <span class="nav-step">2. <b>시부야</b>: 긴자역에서 긴자선 타고 종점 시부야역 하차</span>
+        <span class="nav-step">3. <b>신주쿠</b>: 시부야에서 JR 야마노테선 타고 3정거장 이동</span>
+    </div>
+    <div class="photo-section">
+        <input type="file" accept="image/*" onchange="previewFile(this, 'img4')">
+        <img id="img4" class="preview-img">
+        <textarea id="memo4" placeholder="4일차 메모를 남기세요..."></textarea>
+        <button class="save-btn" onclick="saveMemo(4)">메모 저장</button>
+    </div>
+</div>
+
+<script>
+    // 사진 미리보기 기능
+    function previewFile(input, imgId) {
+        const file = input.files[0];
+        const preview = document.getElementById(imgId);
+        const reader = new FileReader();
+        reader.onloadend = function() {
+            preview.src = reader.result;
+            preview.style.display = "block";
+        }
+        if (file) reader.readAsDataURL(file);
+    }
+
+    // 메모 저장 기능 (로컬 저장소)
+    function saveMemo(day) {
+        const memoText = document.getElementById('memo' + day).value;
+        localStorage.setItem('tokyo_memo_' + day, memoText);
+        alert(day + "일차 메모가 브라우저에 저장되었습니다!");
+    }
+
+    // 페이지 로드 시 저장된 메모 불러오기
+    window.onload = function() {
+        for(let i=1; i<=4; i++) {
+            const savedMemo = localStorage.getItem('tokyo_memo_' + i);
+            if(savedMemo) document.getElementById('memo' + i).value = savedMemo;
+        }
+    }
+</script>
+
+</body>
+</html>

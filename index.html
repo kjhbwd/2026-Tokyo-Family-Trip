@@ -7,20 +7,34 @@
     <style>
         :root { --main: #ff4757; --bg: #f8f9fa; --card: #ffffff; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); margin: 0; padding-bottom: 100px; color: #333; }
+        
+        /* 암호 화면 */
         #lock-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--main); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2000; }
         #pw-input { width: 180px; padding: 15px; border: none; border-radius: 10px; text-align: center; font-size: 1.5rem; margin-bottom: 20px; outline: none; letter-spacing: 5px; }
         #lock-screen button { padding: 12px 40px; border: none; border-radius: 25px; background: white; color: var(--main); font-weight: bold; cursor: pointer; }
+        
         #app-content { display: none; }
         .header { background: var(--main); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; font-weight: bold; }
+        
+        /* 카드 스타일 */
         .card { background: var(--card); margin: 15px; padding: 20px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: none; }
         .card.active { display: block; }
         h2 { font-size: 1.1rem; color: var(--main); margin-top: 0; border-bottom: 2px solid #fff0f1; padding-bottom: 8px; }
         .info-item { font-size: 0.85rem; margin-bottom: 8px; padding-left: 10px; border-left: 3px solid #ff4757; line-height: 1.5; white-space: pre-wrap; }
+        
+        /* 사진 리스트 */
         .photo-container { position: relative; display: inline-block; margin: 5px; }
-        .photo-item { width: 95px; height: 95px; object-fit: cover; border-radius: 10px; border: 1px solid #eee; }
+        .photo-item { width: 95px; height: 95px; object-fit: cover; border-radius: 10px; border: 1px solid #eee; cursor: pointer; }
         .del-btn { position: absolute; top: -5px; right: -5px; background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; }
+        
+        /* 사진 확대 모달 */
+        #photo-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; cursor: zoom-out; }
+        #modal-img { max-width: 95%; max-height: 90%; border-radius: 5px; }
+
         textarea { width: 100%; height: 100px; border: 1px solid #eee; border-radius: 10px; padding: 10px; margin-top: 15px; box-sizing: border-box; background: #fffdf0; font-size: 0.85rem; }
         .upload-btn { display: inline-block; padding: 8px 15px; background: #f0f0f0; border-radius: 8px; font-size: 0.8rem; cursor: pointer; margin-top: 10px; border: 1px solid #ddd; font-weight: bold; }
+        
+        /* 하단 네비게이션 */
         .nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; border-top: 1px solid #eee; height: 75px; z-index: 100; }
         .nav-item { flex: 1; text-align: center; padding: 12px 0; color: #999; cursor: pointer; font-size: 0.75rem; }
         .nav-item.active { color: var(--main); font-weight: bold; background: #fffafa; }
@@ -39,13 +53,10 @@
 
     <div id="day1" class="card active">
         <h2>DAY 1: 공항 & 도쿄타워 (1/16)</h2>
-        <div class="info-item">✈️ 15:00 나리타공항(T2) 도착 및 입국 심사
-💰 스이카 발급 (나리타 T2 B1F JR Travel Center)
-🚆 나리타 → 아사쿠사 (Access Express 직행, 1,370엔)
-🏨 아사쿠사역 A4 출구 → 호텔 도보 7~8분
-🗼 도쿄타워 이동: 아사쿠사선 1번 → 다이몬역(27분)
-🍴 저녁 추천: 라멘 카나다야 / 난스케 바이스 / 토리키조쿠
-🌙 아사쿠사 야간 산책 & 돈키호테 (24시간)</div>
+        <div class="info-item">✈️ 15:00 나리타공항(T2) 도착
+💰 스이카 발급 (나리타 T2 B1F)
+🚆 나리타 → 아사쿠사 (Access Express)
+🗼 도쿄타워: 다이몬역 이동 (27분)</div>
         <div id="photos-day1"></div>
         <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day1', this)"></label>
         <textarea id="memo-day1" onblur="saveMemo('day1')" placeholder="메모를 남겨보세요!"></textarea>
@@ -53,12 +64,9 @@
 
     <div id="day2" class="card">
         <h2>DAY 2: 해리포터 & 스카이트리 (1/17)</h2>
-        <div class="info-item">🍳 08:00 아침식사: 요시노야 (규동/미소시루 세트)
-🧙‍♂️ 09:00 해리포터 스튜디오 투어 출발
-🛤️ 경로: 호텔→아사쿠사선(빨강)→오시아게역 환승→한조몬선(보라)→시부야역(JR환승)→JR야마노테선(초록)→이케부쿠로→세이부선(노랑)→도시마엔
-⚡ 10:30~13:30 해리포터 스튜디오 투어 (사진 포인트 많음)
-🗼 15:00~17:00 스카이트리 전망대 & 쇼핑(Solamachi)
-🌙 18:00 아사쿠사 귀가 및 야간산책 (멜론빵/나카미세)</div>
+        <div class="info-item">🧙‍♂️ 10:30 해리포터 스튜디오 투어
+🗼 15:00 스카이트리 전망대 & 쇼핑
+🌙 아사쿠사 야간 산책</div>
         <div id="photos-day2"></div>
         <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day2', this)"></label>
         <textarea id="memo-day2" onblur="saveMemo('day2')"></textarea>
@@ -66,13 +74,9 @@
 
     <div id="day3" class="card">
         <h2>DAY 3: 히에신사 & 시부야 (1/18)</h2>
-        <div class="info-item">⛩️ 10:00~11:00 히에신사 (붉은 토리이 포토존)
-🎭 11:45 아카사카 ACT 씨어터 입장
-🪄 12:15 해리포터 공연 시작 (약 3시간 30분 소요)
-🏙️ 16:00 시부야 이동 및 식사 (이치란 라멘/스키야)
-✨ 17:00~18:00 시부야 스카이 전망대 관람
-🛍️ 18:00~20:00 시부야 쇼핑 및 가챠샵
-🏨 21:00 호텔 도착 및 휴식</div>
+        <div class="info-item">⛩️ 히에신사 (붉은 토리이 포토존)
+🪄 해리포터 공연 관람 (아카사카)
+🏙️ 시부야 스카이 전망대 (야경)</div>
         <div id="photos-day3"></div>
         <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day3', this)"></label>
         <textarea id="memo-day3" onblur="saveMemo('day3')"></textarea>
@@ -80,11 +84,8 @@
 
     <div id="day4" class="card">
         <h2>DAY 4: 디즈니씨 탐험 (1/19)</h2>
-        <div class="info-item">🎡 경로: 아사쿠사역→히가시긴자→신바시→마이하마(JR 게이요선)
-🍴 식사 추천: 세일링데이 뷔페 / 카스피안 스낵 / 리스트란테 디 카나렛토
-🎢 스릴 기구: 저니 투 더 센터 오브 더 어스 / 타워 오브 테러 / 인디아나 존스
-🧸 가족용: 아쿠아토피아 / 매지컬 램프 씨어터
-🎆 저녁 쇼: Believe! Sea of Dreams (야간 하버쇼)</div>
+        <div class="info-item">🎢 저니 투 더 센터 오브 더 어스
+🎆 Believe! Sea of Dreams 야간 쇼</div>
         <div id="photos-day4"></div>
         <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day4', this)"></label>
         <textarea id="memo-day4" onblur="saveMemo('day4')"></textarea>
@@ -92,11 +93,8 @@
 
     <div id="day5" class="card">
         <h2>DAY 5: 시장 구경 & 귀국 (1/20)</h2>
-        <div class="info-item">🍣 오전: 츠키지 장외 시장 투어
-🚆 나리타행 열차 안내: 2번 플랫폼 (나리타 방향 확인)
-🎫 요금: 1,320엔 (스이카 결제 가능)
-⏱️ 소요시간: 약 55~60분 (환승 없음)
-✈️ 나리타 공항 2·3터미널 도착 후 출국장 이동</div>
+        <div class="info-item">🍣 츠키지 장외 시장 투어
+🚆 나리타 공항 이동 및 출국</div>
         <div id="photos-day5"></div>
         <label class="upload-btn">📷 사진 추가 <input type="file" hidden onchange="uploadPhoto('day5', this)"></label>
         <textarea id="memo-day5" onblur="saveMemo('day5')"></textarea>
@@ -109,6 +107,10 @@
         <div class="nav-item" onclick="go(4)">19(일)<br>4일차</div>
         <div class="nav-item" onclick="go(5)">20(월)<br>5일차</div>
     </div>
+</div>
+
+<div id="photo-modal" onclick="this.style.display='none'">
+    <img id="modal-img" src="">
 </div>
 
 <script type="module">
@@ -129,6 +131,7 @@
     const db = getFirestore(app);
     const storage = getStorage(app);
 
+    // 비밀번호 체크 (사용자 설정: 1214)
     window.checkPassword = () => {
         const input = document.getElementById('pw-input').value.trim();
         if (input === "1214") {
@@ -139,6 +142,13 @@
         }
     };
 
+    // 사진 확대 함수
+    window.openModal = (url) => {
+        document.getElementById('modal-img').src = url;
+        document.getElementById('photo-modal').style.display = 'flex';
+    };
+
+    // 사진 업로드 (영구 저장 설정 완료)
     window.uploadPhoto = async (day, input) => {
         if (!input.files[0]) return;
         const file = input.files[0];
@@ -151,6 +161,7 @@
         } catch (e) { alert("저장 실패!"); }
     };
 
+    // 사진 삭제
     window.deletePhoto = async (day, photoData) => {
         if (!confirm("삭제하시겠습니까?")) return;
         try {
@@ -159,11 +170,13 @@
         } catch (e) { alert("삭제 실패!"); }
     };
 
+    // 메모 저장
     window.saveMemo = async (day) => {
         const val = document.getElementById("memo-" + day).value;
         await setDoc(doc(db, "travel", day), { memo: val }, { merge: true });
     };
 
+    // 탭 이동
     window.go = (n) => {
         document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
@@ -172,6 +185,7 @@
         window.scrollTo(0,0);
     };
 
+    // 실시간 데이터 동기화
     ['day1','day2','day3','day4','day5'].forEach(day => {
         onSnapshot(doc(db, "travel", day), (docSnap) => {
             if (docSnap.exists()) {
@@ -181,7 +195,7 @@
                 if (photoDiv) {
                     photoDiv.innerHTML = (data.photos || []).map(p => `
                         <div class="photo-container">
-                            <img src="${p.url}" class="photo-item">
+                            <img src="${p.url}" class="photo-item" onclick="openModal('${p.url}')">
                             <button class="del-btn" onclick="deletePhoto('${day}', ${JSON.stringify(p).replace(/"/g, '&quot;')})">✕</button>
                         </div>
                     `).join('');
